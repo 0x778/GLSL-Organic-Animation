@@ -20,6 +20,7 @@ camera.position.z = 2
 const renderer = new THREE.WebGLRenderer()
 renderer.setSize(window.innerWidth, window.innerHeight)
 document.body.appendChild(renderer.domElement)
+renderer.setClearColor(0x8343, 1)
 
 
 /**
@@ -41,13 +42,16 @@ const white = new THREE.Color("white")
 /**
  * Meshes
  */
+const material = new THREE.ShaderMaterial({
+  vertexShader:vertexShaders,
+  fragmentShader:fragmentShadesr
+})
+
 const sphare = new THREE.Mesh(
-  new THREE.PlaneGeometry(2,2,20,20),
-  new THREE.ShaderMaterial({
-    vertexShader:vertexShaders,
-    fragmentShader:fragmentShadesr
-    })
+  new THREE.SphereGeometry(1),
+  material
 )
+material.uniforms.uRadius = {value: 0.5}
 scence.add(sphare)
 
 
@@ -78,6 +82,7 @@ Debug.add(sphare.material, "wireframe")
 console.log(sphare.material)
 console.log(sphare.geometry)
 
+Debug.add(material.uniforms.uRadius, "value",-1, 1)
 const axis = new THREE.AxesHelper(5)
 scence.add(axis)
 

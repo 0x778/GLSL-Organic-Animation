@@ -2,7 +2,7 @@
 uniform float uTime;
 varying vec3 vPosition;
 varying vec3 vNormal;
-flat varying vec2 vUv;
+smooth varying vec2 vUv;
 void main(){
     //Transform => position , rotation , scale
     //modelMatrix => position , rotation , scale for our model
