@@ -48,7 +48,7 @@ const material = new THREE.ShaderMaterial({
 })
 
 const sphare = new THREE.Mesh(
-  new THREE.SphereGeometry(1),
+  new THREE.PlaneGeometry(2,2),
   material
 )
 material.uniforms.uRadius = {value: 0.5}
