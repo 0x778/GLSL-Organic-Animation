@@ -1,9 +1,24 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/Addons.js'
+//Deubg
 import GUI from 'lil-gui'
-import vertexShaders from './shaders/vertexShader.glsl'
-import fragmentShadesr from './shaders/fragmentShader.glsl'
+import Stats from 'three/examples/jsm/libs/stats.module.js'
 
+// import postprocessing passes
+import { SavePass } from 'three/examples/jsm/postprocessing/SavePass.js'
+import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js'
+import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js' 
+import { BlendShader } from 'three/examples/jsm/shaders/BlendShader.js'
+import { CopyShader } from 'three/examples/jsm/shaders/CopyShader.js'
+
+import fragmentShadesr from './shaders/fragmentShader.glsl'
+import vertexShaders from './shaders/vertexShader.glsl'
+
+
+/**
+ * Constants
+ */
+const MOTION_BLUR_AMOUNT = 0.5
 
 /**
  * basic render
@@ -48,10 +63,10 @@ const material = new THREE.ShaderMaterial({
 })
 
 const sphare = new THREE.Mesh(
-  new THREE.SphereGeometry(1),
+  new THREE.IcosahedronGeometry(1 , 400),
   material
 )
-material.uniforms.uRadius = {value: 0.5}
+material.uniforms.uTime = { value: 0.5}
 scence.add(sphare)
 
 
@@ -81,8 +96,11 @@ const Debug = new GUI()
 Debug.add(sphare.material, "wireframe")
 console.log(sphare.material)
 console.log(sphare.geometry)
-
-Debug.add(material.uniforms.uRadius, "value",-1, 1)
+const shader =  Debug.addFolder("Shader")
+const uniforms =  shader.addFolder("Uniform Time")
+uniforms.add(material.uniforms.uTime, "value", 0.0, 10.0)
+const stats = new Stats()
+document.body.appendChild(stats.dom)
 const axis = new THREE.AxesHelper(5)
 scence.add(axis)
 
@@ -90,10 +108,24 @@ scence.add(axis)
 /**
  * The animate
  */
-function animate() {
+
+
+
+/**
+ *  Post Processing Animation
+ */
+
+
+
+/**
+ * Main Animation
+ */
+function animate(timestamp) {
   requestAnimationFrame(animate)
   renderer.render(scence, camera)
   orbit.update()
-  
+  const time = timestamp / 10000
+  material.uniforms.uTime.value = time
 }
+
 animate()
