@@ -1,8 +1,11 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/Addons.js'
 import GUI from 'lil-gui'
+
 import vertexShaders from './shaders/vertexShader.glsl'
-import fragmentShadesr from './shaders/fragmentShader.glsl'
+import vertexShadersPars from './shaders/vertexShaderPars.glsl'
+import vertexMain from './shaders/vertexMain.glsl'
+
 
 
 /**
@@ -42,16 +45,26 @@ const white = new THREE.Color("white")
 /**
  * Meshes
  */
-const material = new THREE.ShaderMaterial({
-  vertexShader:vertexShaders,
-  fragmentShader:fragmentShadesr
+const material = new THREE.MeshStandardMaterial({
+  onBeforeCompile: (shader) => {
+
+    //storing a reference to the shader object
+    material.userData.shader = shader
+    //uniform
+    shader.uniforms.uTime = { value: 0.5}
+
+    console.log(shader.vertexShader)
+    const parsVertexString = /* glsl */`#include <displacementmap_pars_vertex>`
+    shader.vertexShader = vertexShaders.replace(parsVertexString , parsVertexString + vertexShadersPars)
+  }
+
 })
 
 const sphare = new THREE.Mesh(
-  new THREE.SphereGeometry(1),
+  new THREE.IcosahedronGeometry(1 , 300),
   material
 )
-material.uniforms.uRadius = {value: 0.5}
+material.side = THREE.DoubleSide
 scence.add(sphare)
 
 
@@ -83,6 +96,11 @@ console.log(sphare.material)
 console.log(sphare.geometry)
 
 Debug.add(material.uniforms.uRadius, "value",-1, 1)
+const shader =  Debug.addFolder("Shader")
+const uniforms =  shader.addFolder("Uniform Time")
+// uniforms.add(material.userData.shader.uniforms.uTime, "value", 0.0, 10.0)
+const stats = new Stats()
+document.body.appendChild(stats.dom)
 const axis = new THREE.AxesHelper(5)
 scence.add(axis)
 
@@ -95,5 +113,7 @@ function animate() {
   renderer.render(scence, camera)
   orbit.update()
   
+  const time = timestamp / 10000
+  material.userData.shader.uniforms.uTime.value = time
 }
 animate()
