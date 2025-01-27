@@ -11,9 +11,13 @@ import fragmentPars from './shaders/fragmentPars.glsl'
 
 import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js'
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js'
+import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js'
+
 /**
  * layers
  */
+
+
 
 /**
  * basic render
@@ -109,14 +113,18 @@ orbit.enableDamping = true
 /**
  * Lights
  */
+// 
+// const spotlight = new THREE.SpotLight('#526cff',2)
+// spotlight.position.set(2, 2, 2)
+// scence.add(spotlight)
 
-const spotlight = new THREE.SpotLight('#526cff',2)
-spotlight.position.set(2, 2, 2)
-scence.add(spotlight)
-
-const directionLight = new THREE.DirectionalLight("#4255ff", 2)
-directionLight.position.set(5, 6, 4)
+const directionLight = new THREE.DirectionalLight("#526cff", 2)
+directionLight.position.set(2, 2, 2)
 scence.add(directionLight)
+
+const ambientLight = new THREE.AmbientLight("#4255ff", 2)
+ambientLight.position.set(2, 2, 2)
+scence.add(ambientLight)
 
 /**
  * Debug
@@ -141,18 +149,20 @@ console.log(material.userData)
 /**
  * postprocessing
  */
- const composer = new EffectComposer(renderer)
- composer.addPass(new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.5, 0.4, 0.85))
-
-/**
+const composer = new EffectComposer(renderer)
+const renderPass = new RenderPass(scence, camera)
+ composer.addPass(renderPass)
+ composer.addPass(new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1, 0.2, 0.1))
+ 
+ /**
  * The animate
  */
 function animate(timestamp) {
   requestAnimationFrame(animate)
   renderer.render(scence, camera)
   orbit.update()
-  
   const time = timestamp / 10000
   material.userData.shader.uniforms.uTime = {value: time}
+  composer.render()
 }
 animate()
