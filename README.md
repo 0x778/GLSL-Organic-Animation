@@ -2,24 +2,28 @@
 
 **This project applied Organic shader**
 
-<vidoe src="https://streamable.com/n967j7"/>
+<a href="https://ibb.co/gZhhPtXd"><img src="https://i.ibb.co/XxMM3FdD/Screenshot-from-2025-02-05-23-52-40.png" alt="Screenshot-from-2025-02-05-23-52-40" border="0"></a>
 
-### preaper installtion
+### Installtion Steps
 
 <ol>
 <li>install three js </li>
-``bash 
+  
+```bash 
 npm i three
-``
+```
+
 <li> install vite plugin for glsl</li>
-``bash
+
+```bash
 install i vite-plugin-glsl
-``
+```
 
 <li>run the program</li>
-``bash
+
+```bash
 npm run dev
-``
+```
 </ol>
 
 **Note:** This is a responsive 3D project !
