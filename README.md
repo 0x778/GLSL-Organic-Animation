@@ -16,7 +16,7 @@ npm i three
 <li> install vite plugin for glsl</li>
 
 ```bash
-install i vite-plugin-glsl
+npm i vite-plugin-glsl
 ```
 
 <li>run the program</li>
