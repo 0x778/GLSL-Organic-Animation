@@ -1,3 +1,7 @@
+/**This project done by 0x778 
+ *  https://www.github.com/x0778
+ * 
+*/
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/Addons.js'
 import GUI from 'lil-gui'
