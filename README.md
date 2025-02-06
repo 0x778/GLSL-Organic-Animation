@@ -1,6 +1,6 @@
 ## Shader project using GLSL
 
-**This project applied Organic shader**
+>**This project applied Organic shader**
 
 <a href="https://ibb.co/gZhhPtXd"><img src="https://i.ibb.co/XxMM3FdD/Screenshot-from-2025-02-05-23-52-40.png" alt="Screenshot-from-2025-02-05-23-52-40" border="0"></a>
 
